@@ -1,0 +1,19 @@
+# inference.py
+
+import torch
+from model import HypergraphEncoder
+from matching import affinity_matrix, sinkhorn, hungarian
+
+class CrossModalMatcher:
+    def __init__(self, dim):
+        self.encoder = HypergraphEncoder(dim)
+        self.W = torch.randn(dim, dim)
+
+    def forward(self, img_nodes, text_nodes):
+        H_img = self.encoder(img_nodes)
+        H_txt = self.encoder(text_nodes)
+
+        S = affinity_matrix(H_img, H_txt, self.W)
+        M = sinkhorn(S)
+
+        return hungarian(M)
