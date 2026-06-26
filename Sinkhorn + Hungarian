@@ -1,0 +1,23 @@
+# matching.py
+
+import torch
+import numpy as np
+from scipy.optimize import linear_sum_assignment
+
+def affinity_matrix(H1, H2, W):
+    # H1: [N,D], H2:[M,D]
+    return torch.matmul(torch.matmul(H1, W), H2.T)
+
+def sinkhorn(A, n_iter=20):
+    A = torch.exp(A)
+
+    for _ in range(n_iter):
+        A = A / A.sum(dim=1, keepdim=True)
+        A = A / A.sum(dim=0, keepdim=True)
+
+    return A
+
+def hungarian(M):
+    M = M.detach().cpu().numpy()
+    row, col = linear_sum_assignment(-M)
+    return list(zip(row, col))
