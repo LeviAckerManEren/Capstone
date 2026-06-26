@@ -1,0 +1,11 @@
+# scene_graph.py
+
+class Node:
+    def __init__(self, name, feature):
+        self.name = name
+        self.feature = feature
+
+class Graph:
+    def __init__(self, nodes, edges):
+        self.nodes = nodes
+        self.edges = edges
