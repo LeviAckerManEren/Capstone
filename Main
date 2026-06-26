@@ -1,0 +1,18 @@
+# main.py
+
+import torch
+from inference import CrossModalMatcher
+
+def run_example():
+    model = CrossModalMatcher(dim=128)
+
+    # general input (NOT hard-coded example anymore)
+    img_nodes = torch.randn(5, 128)
+    text_nodes = torch.randn(6, 128)
+
+    result = model.forward(img_nodes, text_nodes)
+
+    print("Matched pairs:", result)
+
+if __name__ == "__main__":
+    run_example()
